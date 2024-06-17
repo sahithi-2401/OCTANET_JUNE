@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-... (hash) ..." crossorigin="anonymous" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: black;
+            color: white;
+        }
+        h1 {
+            text-align: center;
+            color: white;
+            display: flex;
+            align-items: center; 
+            justify-content: center; 
+        }
+        .icon {
+            margin-right: 10px; 
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            position: relative; 
+            margin: 10px 0;
+            color: white;
+            font-size: 28px; 
+            background-color: rgba(255, 255, 255, 0.1); 
+            padding: 15px; 
+            border-radius: 5px;
+            width: 80%; 
+            max-width: 600px; 
+            margin-left: auto; 
+            margin-right: auto; 
+            box-sizing: border-box; 
+            transition: all 0.3s ease; 
+        }
+        li.completed {
+            text-decoration: line-through; 
+            opacity: 0.5; 
+        }
+        input[type="checkbox"] {
+            position: absolute;
+            left: 10px; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            width: 20px; 
+            height: 20px; 
+            cursor: pointer; 
+        }
+        .delete-icon {
+            position: absolute;
+            right: 10px; 
+            top: 50%; 
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7); 
+            cursor: pointer; 
+        }
+        .delete-icon:hover {
+            color: rgba(255, 255, 255, 1); 
+        }
+        .refresh-button {
+            margin-left: 10px; 
+            padding: 10px 20px; 
+            font-size: 16px; 
+            color: black; 
+            background-color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+        }
+        .refresh-button:hover {
+            background-color: #ccc; 
+        }
+        li label {
+            margin-left: 40px; 
+            display: block; 
+        }
+        .category {
+            font-weight: bold;
+            margin-top: 20px;
+            color: white;
+            font-size: 28px; 
+            text-align: center; 
+        }
+        input, button {
+            margin: 10px 5px;
+            padding: 10px;
+            font-size: 16px;
+            color: black;
+            background-color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .input-group {
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+            margin-bottom: 20px; 
+        }
+    </style>
+</head>
+<body>
+    <h1><span class="icon"><i class="far fa-edit"></i></span>To-Do List</h1>
+    <div class="input-group">
+        <input type="text" id="new-task" placeholder="Enter a new task">
+        <button onclick="addTask()">Add Task</button>
+        <button class="refresh-button" onclick="refreshTasks()">Refresh</button>
+    </div>
+    <ul id="todo-list">
+    </ul>
+    <script>
+        function addTask() {
+            var taskInput = document.getElementById("new-task");
+            var taskText = taskInput.value;
+            if (taskText) {
+                var ul = document.getElementById("todo-list");
+                var li = document.createElement("li");
+                var checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.onchange = function() {
+                    if (checkbox.checked) {
+                        li.classList.add('completed');
+                        ul.appendChild(li);
+                    } else {
+                        li.classList.remove('completed');
+                        ul.insertBefore(li, ul.firstChild); 
+                    }
+                };
+                li.appendChild(checkbox);
+                var label = document.createElement("label");
+                label.appendChild(document.createTextNode(taskText));
+                li.appendChild(label);
+                var deleteIcon = document.createElement("i");
+                deleteIcon.className = "fas fa-trash delete-icon";
+                deleteIcon.onclick = function() {
+                    ul.removeChild(li);
+                };
+                li.appendChild(deleteIcon);
+                ul.insertBefore(li, ul.firstChild); 
+                taskInput.value = '';
+            } else {
+                alert("Please enter a task.");
+            }
+        }
+        function refreshTasks() {
+            var ul = document.getElementById("todo-list");
+            ul.innerHTML = ''; 
+        }
+    </script>
+</body>
+</html>
+
+
